@@ -42,7 +42,6 @@ import android.util.Log;
 import com.makingiants.liveview.funny.R;
 import com.makingiants.liveview.funny.model.SoundPlayer;
 import com.makingiants.liveview.funny.model.sounds.CategoryManager;
-import com.rRhoDEGBMf.gpIpiBntrE126271.Airpush;
 import com.sonyericsson.extras.liveview.plugins.AbstractPluginService;
 import com.sonyericsson.extras.liveview.plugins.PluginConstants;
 import com.sonyericsson.extras.liveview.plugins.PluginUtils;
@@ -67,7 +66,7 @@ public class SoundPluginService extends AbstractPluginService {
 	private Bitmap bitmapBackground;
 	
 	// Ads attribute
-	private Airpush airpush;
+	//private Airpush airpush;
 	
 	// ****************************************************************
 	// Service Overrides
@@ -110,9 +109,9 @@ public class SoundPluginService extends AbstractPluginService {
 			        R.drawable.background));
 			
 			// Init airpush ads
-			airpush = new Airpush(getApplicationContext());
-			airpush.startSmartWallAd(); //launch smart wall on App start
-			airpush.startPushNotification(false);
+			//airpush = new Airpush(getApplicationContext());
+			//airpush.startSmartWallAd(); //launch smart wall on App start
+			//airpush.startPushNotification(false);
 			//Airpush.enableSDK(getApplicationContext(), true);
 			
 			// Init other attributes
