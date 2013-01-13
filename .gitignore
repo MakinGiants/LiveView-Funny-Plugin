@@ -1,12 +1,27 @@
-#
-# MAC OSX
-#
 
+# ---- MAC ----
 .DS_Store
+.AppleDouble
+.LSOverride
+Icon
 
-#
-# Android 
-#
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+
+#  ---- JAVA -----
+*.class
+
+# Package Files #
+*.war
+*.ear
+
+# ---- Android ----
 
 # built application files
 *.apk
@@ -21,6 +36,7 @@
 # generated files
 bin/
 gen/
+dist/
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -28,34 +44,3 @@ local.properties
 # Eclipse project files
 .classpath
 .project
-
-
-#
-# Eclipse
-#
-*.pydevproject
-.project
-.metadata
-bin/**
-tmp/**
-tmp/**/*
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.classpath
-.settings/
-.loadpath
-
-# External tool builders
-.externalToolBuilders/
-
-# Locally stored "Eclipse launch configurations"
-*.launch
-
-# CDT-specific
-.cproject
-
-# PDT-specific
-.buildpath

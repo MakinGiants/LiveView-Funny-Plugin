@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LiveView Funny Plugin</string>
-    <!-- 
-    	The following strings needs to be defined in order for the Plugin to function.
-    -->
+
+    <string name="app_name">LiveView Funny Sounds</string>
+    <!-- The following strings needs to be defined in order for the Plugin to function. -->
     <string name="pluginname">Funny Sounds</string>
-    <string name="intent_preferences">com.sonyericsson.extras.liveview.plugins.sandbox.PREFERENCES</string>
-    <string name="intent_service">com.sonyericsson.extras.liveview.plugins.sandbox.sandboxpluginservice</string>
+    <string name="intent_preferences">com.makingiants.liveview.funny.liveview.plugins.PREFERENCES</string>
+    <string name="intent_service">com.makingiants.liveview.funny.liveview.plugins.sandboxpluginservice</string>
     <string name="application_description">Extends:com.sonyericsson.extras.liveview</string>
+
 </resources>
