@@ -16,7 +16,7 @@ public class CategoryManager {
 	// Attributes
 	// ****************************************************************
 	
-	// Category 
+	// Category
 	private ArrayList<Category> categories;
 	private int actualCategory;
 	

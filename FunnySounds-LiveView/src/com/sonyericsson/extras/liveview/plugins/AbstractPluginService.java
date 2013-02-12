@@ -81,7 +81,8 @@ public abstract class AbstractPluginService extends Service {
 	 * @param className
 	 * @param service
 	 */
-	protected abstract void onServiceConnectedExtended(ComponentName className, IBinder service);
+	protected abstract void onServiceConnectedExtended(ComponentName className,
+			IBinder service);
 	
 	/**
 	 * Extenders of PluginService must implement this. Called by
@@ -89,7 +90,8 @@ public abstract class AbstractPluginService extends Service {
 	 * 
 	 * @param className
 	 */
-	protected abstract void onServiceDisconnectedExtended(ComponentName className);
+	protected abstract void onServiceDisconnectedExtended(
+			ComponentName className);
 	
 	/**
 	 * Extenders of PluginService must implement this. Called by
@@ -98,7 +100,8 @@ public abstract class AbstractPluginService extends Service {
 	 * @param pref
 	 * @param key
 	 */
-	protected abstract void onSharedPreferenceChangedExtended(SharedPreferences pref, String key);
+	protected abstract void onSharedPreferenceChangedExtended(
+			SharedPreferences pref, String key);
 	
 	/**
 	 * Extenders of PluginService must implement this. Called by
@@ -131,7 +134,8 @@ public abstract class AbstractPluginService extends Service {
 	 * 
 	 * Button has been pressed on the LiveView device.
 	 */
-	protected abstract void button(String buttonType, boolean doublepress, boolean longpress);
+	protected abstract void button(String buttonType, boolean doublepress,
+			boolean longpress);
 	
 	/**
 	 * LiveView callback interface method.
@@ -169,58 +173,75 @@ public abstract class AbstractPluginService extends Service {
 		
 		Handler mCallbackHandler = new Handler();
 		
+		@Override
 		public void startPlugin() throws RemoteException {
 			mCallbackHandler.post(new Runnable() {
+				@Override
 				public void run() {
 					AbstractPluginService.this.startPlugin();
 				}
 			});
 		}
 		
+		@Override
 		public void stopPlugin() throws RemoteException {
 			mCallbackHandler.post(new Runnable() {
+				@Override
 				public void run() {
 					AbstractPluginService.this.stopPlugin();
 				}
 			});
 		}
 		
+		@Override
 		public String getPluginName() throws RemoteException {
 			return mPluginName;
 		}
 		
-		public void button(final String buttonType, final boolean doublepress, final boolean longpress)
-		        throws RemoteException {
+		@Override
+		public void button(final String buttonType, final boolean doublepress,
+				final boolean longpress) throws RemoteException {
 			mCallbackHandler.post(new Runnable() {
+				@Override
 				public void run() {
-					AbstractPluginService.this.button(buttonType, doublepress, longpress);
+					AbstractPluginService.this.button(buttonType, doublepress,
+							longpress);
 				}
 			});
 		}
 		
-		public void displayCaps(final int displayWidthPx, final int displayHeigthPx)
-		        throws RemoteException {
+		@Override
+		public void displayCaps(final int displayWidthPx,
+				final int displayHeigthPx) throws RemoteException {
 			mCallbackHandler.post(new Runnable() {
+				@Override
 				public void run() {
-					AbstractPluginService.this.displayCaps(displayWidthPx, displayHeigthPx);
+					AbstractPluginService.this.displayCaps(displayWidthPx,
+							displayHeigthPx);
 				}
 			});
 		}
 		
+		@Override
 		public void onUnregistered() throws RemoteException {
 			AbstractPluginService.this.onUnregistered();
 		}
 		
-		public void openInPhone(final String openInPhoneAction) throws RemoteException {
+		@Override
+		public void openInPhone(final String openInPhoneAction)
+				throws RemoteException {
 			mCallbackHandler.post(new Runnable() {
+				@Override
 				public void run() {
 					AbstractPluginService.this.openInPhone(openInPhoneAction);
 				}
 			});
 		}
 		
+		@Override
 		public void screenMode(final int mode) throws RemoteException {
 			mCallbackHandler.post(new Runnable() {
+				@Override
 				public void run() {
 					AbstractPluginService.this.screenMode(mode);
 				}
@@ -238,15 +259,19 @@ public abstract class AbstractPluginService extends Service {
 		return alreadyRunning;
 	}
 	
+	@Override
 	public void onCreate() {
 		super.onCreate();
 		Log.d(PluginConstants.LOG_TAG, "Enter AbstractPluginService.onCreate.");
 		
 		// Load menu icon
-		final int iconId = PluginUtils.getDynamicResourceId(this, "icon", "drawable");
-		mMenuIcon = PluginUtils.storeIconToFile(this, getResources(), iconId, TEMPLATE_MENU_ICON);
+		final int iconId = PluginUtils.getDynamicResourceId(this, "icon",
+				"drawable");
+		mMenuIcon = PluginUtils.storeIconToFile(this, getResources(), iconId,
+				TEMPLATE_MENU_ICON);
 	}
 	
+	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		Log.d(PluginConstants.LOG_TAG, "Enter AbstractPluginService.onDestroy.");
@@ -260,25 +285,28 @@ public abstract class AbstractPluginService extends Service {
 		alreadyRunning = false;
 	}
 	
+	@Override
 	public void onStart(final Intent intent, final int startId) {
 		super.onStart(intent, startId);
 		Log.d(PluginConstants.LOG_TAG, "Enter AbstractPluginService.onStart.");
 		
 		if (isAlreadyRunning()) {
 			Log.d(PluginConstants.LOG_TAG, "Already started.");
-		} else {
+		}
+		else {
 			// Init
 			mPluginName = PluginUtils.getDynamicResourceString(this,
-			        PluginConstants.RESOURCE_STRING_PLUGIN_NAME);
+					PluginConstants.RESOURCE_STRING_PLUGIN_NAME);
 			mServiceIntent = PluginUtils.getDynamicResourceString(this,
-			        PluginConstants.RESOURCE_STRING_INTENT_SERVICE);
+					PluginConstants.RESOURCE_STRING_INTENT_SERVICE);
 			
 			// Get shared preferences
 			setPreferences();
 			
 			// Register preference listener
 			PreferenceManager.getDefaultSharedPreferences(this)
-			        .registerOnSharedPreferenceChangeListener(mPrefChangeListener);
+					.registerOnSharedPreferenceChangeListener(
+							mPrefChangeListener);
 			
 			// Bind to LiveView
 			connectToLiveView();
@@ -288,6 +316,7 @@ public abstract class AbstractPluginService extends Service {
 		}
 	}
 	
+	@Override
 	public IBinder onBind(final Intent intent) {
 		Log.d(PluginConstants.LOG_TAG, "Enter AbstractPluginService.onBind.");
 		return null;
@@ -302,11 +331,14 @@ public abstract class AbstractPluginService extends Service {
 	 */
 	private final ServiceConnection mServiceConnection = new ServiceConnection() {
 		
-		public void onServiceConnected(final ComponentName className, final IBinder service) {
+		@Override
+		public void onServiceConnected(final ComponentName className,
+				final IBinder service) {
 			Log.d(PluginConstants.LOG_TAG,
-			        "Enter AbstractPluginService.ServiceConnection.onServiceConnected.");
+					"Enter AbstractPluginService.ServiceConnection.onServiceConnected.");
 			
-			final IPluginServiceV1 liveViewService = IPluginServiceV1.Stub.asInterface(service);
+			final IPluginServiceV1 liveViewService = IPluginServiceV1.Stub
+					.asInterface(service);
 			
 			// Init adapter
 			mLiveViewAdapter = new LiveViewAdapter(liveViewService);
@@ -314,23 +346,26 @@ public abstract class AbstractPluginService extends Service {
 			
 			// Install plugin
 			try {
-				mPluginId = mLiveViewAdapter.installPlugin(lvCallback, mMenuIcon, mPluginName,
-				        isSandboxPlugin(), getPackageName(), mServiceIntent);
+				mPluginId = mLiveViewAdapter.installPlugin(lvCallback,
+						mMenuIcon, mPluginName, isSandboxPlugin(),
+						getPackageName(), mServiceIntent);
 			} catch (final RemoteException re) {
-				Log.e(PluginConstants.LOG_TAG, "Failed to install plugin. Stop self.");
+				Log.e(PluginConstants.LOG_TAG,
+						"Failed to install plugin. Stop self.");
 				stopSelf();
 			}
 			
-			Log.d(PluginConstants.LOG_TAG, "Plugin registered. mPluginId: " + mPluginId
-			        + " isSandbox? " + isSandboxPlugin());
+			Log.d(PluginConstants.LOG_TAG, "Plugin registered. mPluginId: "
+					+ mPluginId + " isSandbox? " + isSandboxPlugin());
 			
 			// Call specific plugin implementation
 			onServiceConnectedExtended(className, service);
 		}
 		
+		@Override
 		public void onServiceDisconnected(final ComponentName className) {
 			Log.d(PluginConstants.LOG_TAG,
-			        "Enter AbstractPluginService.ServiceConnection.onServiceDisconnected.");
+					"Enter AbstractPluginService.ServiceConnection.onServiceDisconnected.");
 			stopSelf();
 		}
 		
@@ -342,20 +377,24 @@ public abstract class AbstractPluginService extends Service {
 	 */
 	protected OnSharedPreferenceChangeListener mPrefChangeListener = new OnSharedPreferenceChangeListener() {
 		
-		public void onSharedPreferenceChanged(final SharedPreferences prefs, final String key) {
+		@Override
+		public void onSharedPreferenceChanged(final SharedPreferences prefs,
+				final String key) {
 			// Update preferences
 			setPreferences(prefs);
 			
 			if (key.equals(PluginConstants.PREFERENCES_PLUGIN_ENABLED)) {
 				final boolean pluginEnabled = prefs.getBoolean(
-				        PluginConstants.PREFERENCES_PLUGIN_ENABLED, false);
+						PluginConstants.PREFERENCES_PLUGIN_ENABLED, false);
 				if (pluginEnabled) {
 					startWork();
-				} else {
+				}
+				else {
 					stopWork();
 				}
 				
-				Log.d(PluginConstants.LOG_TAG, "Preferences changed - enabled: " + pluginEnabled);
+				Log.d(PluginConstants.LOG_TAG,
+						"Preferences changed - enabled: " + pluginEnabled);
 			}
 			
 			// Call custom plugin implementation
@@ -368,11 +407,13 @@ public abstract class AbstractPluginService extends Service {
 	 * Connects to the LiveView service.
 	 */
 	private void connectToLiveView() {
-		final boolean result = bindService(new Intent(PluginConstants.LIVEVIEW_SERVICE_BIND_INTENT),
-		        mServiceConnection, 0);
+		final boolean result = bindService(new Intent(
+				PluginConstants.LIVEVIEW_SERVICE_BIND_INTENT),
+				mServiceConnection, 0);
 		if (result) {
 			Log.d(PluginConstants.LOG_TAG, "Bound to LiveView.");
-		} else {
+		}
+		else {
 			Log.d(PluginConstants.LOG_TAG, "No bind.");
 			stopSelf();
 		}
@@ -382,7 +423,8 @@ public abstract class AbstractPluginService extends Service {
 	 * Fetches and sets the shared preferences.
 	 */
 	private void setPreferences() {
-		mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		mSharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
 	}
 	
 	/**

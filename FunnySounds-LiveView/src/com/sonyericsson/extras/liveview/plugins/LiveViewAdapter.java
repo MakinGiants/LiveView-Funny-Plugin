@@ -39,22 +39,27 @@ public class LiveViewAdapter {
 		this.mLiveView = liveView;
 	}
 	
-	public int installPlugin(final IPluginServiceCallbackV1 callback, final String menuIcon, final String pluginName, final boolean sandbox, final String packageName, final String launchIntent)
-	        throws RemoteException {
+	public int installPlugin(final IPluginServiceCallbackV1 callback,
+			final String menuIcon, final String pluginName,
+			final boolean sandbox, final String packageName,
+			final String launchIntent) throws RemoteException {
 		int pluginId = 0;
 		if (mLiveView != null) {
 			// Register
-			pluginId = mLiveView.register(callback, menuIcon, pluginName, sandbox, packageName);
-			Log.d(PluginConstants.LOG_TAG, "Plugin registered. mPluginId: " + pluginId
-			        + " isSandbox? " + sandbox);
+			pluginId = mLiveView.register(callback, menuIcon, pluginName,
+					sandbox, packageName);
+			Log.d(PluginConstants.LOG_TAG, "Plugin registered. mPluginId: "
+					+ pluginId + " isSandbox? " + sandbox);
 			
 			// Notify installation
-			final int installedOk = mLiveView.notifyInstalled(launchIntent, pluginName);
+			final int installedOk = mLiveView.notifyInstalled(launchIntent,
+					pluginName);
 			Log.d(PluginConstants.LOG_TAG, "Plugin installation notified.");
 			
 			if (installedOk >= 0) {
 				Log.d(PluginConstants.LOG_TAG, "Registry success!");
-			} else if (installedOk == -1) {
+			}
+			else if (installedOk == -1) {
 				Log.d(PluginConstants.LOG_TAG, "Already registered!");
 			}
 		}
@@ -62,10 +67,13 @@ public class LiveViewAdapter {
 		return pluginId;
 	}
 	
-	public int register(final IPluginServiceCallbackV1 cb, final String imageMenu, final String pluginName, final boolean selectableMenu, final String packageName) {
+	public int register(final IPluginServiceCallbackV1 cb,
+			final String imageMenu, final String pluginName,
+			final boolean selectableMenu, final String packageName) {
 		int result = 0;
 		try {
-			result = mLiveView.register(cb, imageMenu, pluginName, selectableMenu, packageName);
+			result = mLiveView.register(cb, imageMenu, pluginName,
+					selectableMenu, packageName);
 		} catch (final RemoteException re) {
 			Log.e(PluginConstants.LOG_TAG, "Unexpected remote exception.");
 		}
@@ -81,15 +89,19 @@ public class LiveViewAdapter {
 		}
 	}
 	
-	public void sendAnnounce(final int id, final String imageAnnounce, final String header, final String body, final long timestamp, final String openInPhoneAction) {
+	public void sendAnnounce(final int id, final String imageAnnounce,
+			final String header, final String body, final long timestamp,
+			final String openInPhoneAction) {
 		try {
-			mLiveView.sendAnnounce(id, imageAnnounce, header, body, timestamp, openInPhoneAction);
+			mLiveView.sendAnnounce(id, imageAnnounce, header, body, timestamp,
+					openInPhoneAction);
 		} catch (final RemoteException re) {
 			Log.e(PluginConstants.LOG_TAG, "Unexpected remote exception.");
 		}
 	}
 	
-	public void sendImage(final int id, final int x, final int y, final String image) {
+	public void sendImage(final int id, final int x, final int y,
+			final String image) {
 		try {
 			mLiveView.sendImage(id, x, y, image);
 		} catch (final RemoteException re) {
@@ -97,7 +109,8 @@ public class LiveViewAdapter {
 		}
 	}
 	
-	public void sendImageAsBitmap(final int id, final int x, final int y, final Bitmap bitmapData) {
+	public void sendImageAsBitmap(final int id, final int x, final int y,
+			final Bitmap bitmapData) {
 		try {
 			mLiveView.sendImageAsBitmap(id, x, y, bitmapData);
 		} catch (final RemoteException re) {
@@ -113,7 +126,8 @@ public class LiveViewAdapter {
 		}
 	}
 	
-	public int notifyInstalled(final String launcherIntent, final String pluginName) {
+	public int notifyInstalled(final String launcherIntent,
+			final String pluginName) {
 		int result = 0;
 		try {
 			result = mLiveView.notifyInstalled(launcherIntent, pluginName);
@@ -124,7 +138,8 @@ public class LiveViewAdapter {
 		return result;
 	}
 	
-	public void ledControl(final int id, final int rgb565, final int delayTime, final int onTime) {
+	public void ledControl(final int id, final int rgb565, final int delayTime,
+			final int onTime) {
 		try {
 			mLiveView.ledControl(id, rgb565, delayTime, onTime);
 		} catch (final RemoteException re) {
@@ -132,7 +147,8 @@ public class LiveViewAdapter {
 		}
 	}
 	
-	public void vibrateControl(final int id, final int delayTime, final int onTime) {
+	public void vibrateControl(final int id, final int delayTime,
+			final int onTime) {
 		try {
 			mLiveView.vibrateControl(id, delayTime, onTime);
 		} catch (final RemoteException re) {
@@ -140,7 +156,8 @@ public class LiveViewAdapter {
 		}
 	}
 	
-	public void sendImageAsBitmapByteArray(final int id, final int x, final int y, final byte[] bitmapByteArray) {
+	public void sendImageAsBitmapByteArray(final int id, final int x,
+			final int y, final byte[] bitmapByteArray) {
 		try {
 			mLiveView.sendImageAsBitmapByteArray(id, x, y, bitmapByteArray);
 		} catch (final RemoteException re) {
