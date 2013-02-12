@@ -55,17 +55,20 @@ public final class PluginUtils {
 	 * @param resource Reference to specific resource
 	 * @param fileName The icon file name
 	 */
-	public static String storeIconToFile(final Context ctx, final Resources resources, final int resource, final String fileName) {
+	public static String storeIconToFile(final Context ctx,
+			final Resources resources, final int resource, final String fileName) {
 		Log.d(PluginConstants.LOG_TAG, "Store icon to file.");
 		
 		if (resources == null) {
 			return "";
 		}
 		
-		final Bitmap bitmap = BitmapFactory.decodeStream(resources.openRawResource(resource));
+		final Bitmap bitmap = BitmapFactory.decodeStream(resources
+				.openRawResource(resource));
 		
 		try {
-			final FileOutputStream fos = ctx.openFileOutput(fileName, Context.MODE_WORLD_READABLE);
+			final FileOutputStream fos = ctx.openFileOutput(fileName,
+					Context.MODE_WORLD_READABLE);
 			bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 			fos.flush();
 			fos.close();
@@ -74,7 +77,8 @@ public final class PluginUtils {
 		}
 		
 		final File iconFile = ctx.getFileStreamPath(fileName);
-		Log.d(PluginConstants.LOG_TAG, "Icon stored. " + iconFile.getAbsolutePath());
+		Log.d(PluginConstants.LOG_TAG,
+				"Icon stored. " + iconFile.getAbsolutePath());
 		
 		return iconFile.getAbsolutePath();
 	}
@@ -86,13 +90,14 @@ public final class PluginUtils {
 	 * @param degrees
 	 * @return
 	 */
-	public static void rotateAndSend(final LiveViewAdapter liveView, final int pluginId, final Bitmap bitmap, final int degrees) {
+	public static void rotateAndSend(final LiveViewAdapter liveView,
+			final int pluginId, final Bitmap bitmap, final int degrees) {
 		Bitmap newBitmap = null;
 		try {
 			final Matrix matrix = new Matrix();
 			matrix.postRotate(degrees);
-			newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
-			        matrix, true);
+			newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+					bitmap.getHeight(), matrix, true);
 		} catch (final Exception e) {
 			Log.e(PluginConstants.LOG_TAG, "Failed to rotate bitmap.", e);
 			return;
@@ -101,7 +106,8 @@ public final class PluginUtils {
 		sendScaledImage(liveView, pluginId, newBitmap);
 	}
 	
-	public static void sendTextBitmap(final LiveViewAdapter liveView, final int pluginId, final String text) {
+	public static void sendTextBitmap(final LiveViewAdapter liveView,
+			final int pluginId, final String text) {
 		sendTextBitmap(liveView, pluginId, text, 64, 15);
 	}
 	
@@ -115,11 +121,14 @@ public final class PluginUtils {
 	 * @param fontSize Font size
 	 * @return Absolute path to file
 	 */
-	public static void sendTextBitmap(final LiveViewAdapter liveView, final int pluginId, final String text, final int bitmapSizeX, final int fontSize) {
+	public static void sendTextBitmap(final LiveViewAdapter liveView,
+			final int pluginId, final String text, final int bitmapSizeX,
+			final int fontSize) {
 		// Empty bitmap and link the canvas to it
 		Bitmap bitmap = null;
 		try {
-			bitmap = Bitmap.createBitmap(bitmapSizeX, fontSize, Bitmap.Config.RGB_565);
+			bitmap = Bitmap.createBitmap(bitmapSizeX, fontSize,
+					Bitmap.Config.RGB_565);
 		} catch (final IllegalArgumentException e) {
 			return;
 		}
@@ -132,12 +141,13 @@ public final class PluginUtils {
 		textPaint.setColor(Color.WHITE);
 		
 		// Create the text layout and draw it to the canvas
-		final Layout textLayout = new StaticLayout(text, textPaint, bitmapSizeX,
-		        Layout.Alignment.ALIGN_CENTER, 1, 1, false);
+		final Layout textLayout = new StaticLayout(text, textPaint,
+				bitmapSizeX, Layout.Alignment.ALIGN_CENTER, 1, 1, false);
 		textLayout.draw(canvas);
 		
 		try {
-			liveView.sendImageAsBitmap(pluginId, centerX(bitmap), centerY(bitmap), bitmap);
+			liveView.sendImageAsBitmap(pluginId, centerX(bitmap),
+					centerY(bitmap), bitmap);
 		} catch (final Exception e) {
 			Log.d(PluginConstants.LOG_TAG, "Failed to send bitmap", e);
 		}
@@ -153,11 +163,14 @@ public final class PluginUtils {
 	 * @param fontSize Font size
 	 * @return Absolute path to file
 	 */
-	public static void sendTextBitmap(final LiveViewAdapter liveView, final int pluginId, final String text, final int bitmapSizeX, final int fontSize, final Layout.Alignment aligment) {
+	public static void sendTextBitmap(final LiveViewAdapter liveView,
+			final int pluginId, final String text, final int bitmapSizeX,
+			final int fontSize, final Layout.Alignment aligment) {
 		// Empty bitmap and link the canvas to it
 		Bitmap bitmap = null;
 		try {
-			bitmap = Bitmap.createBitmap(bitmapSizeX, fontSize, Bitmap.Config.RGB_565);
+			bitmap = Bitmap.createBitmap(bitmapSizeX, fontSize,
+					Bitmap.Config.RGB_565);
 		} catch (final IllegalArgumentException e) {
 			return;
 		}
@@ -170,11 +183,13 @@ public final class PluginUtils {
 		textPaint.setColor(Color.WHITE);
 		
 		// Create the text layout and draw it to the canvas
-		final Layout textLayout = new StaticLayout(text, textPaint, bitmapSizeX, aligment, 1, 1, false);
+		final Layout textLayout = new StaticLayout(text, textPaint,
+				bitmapSizeX, aligment, 1, 1, false);
 		textLayout.draw(canvas);
 		
 		try {
-			liveView.sendImageAsBitmap(pluginId, centerX(bitmap), centerY(bitmap), bitmap);
+			liveView.sendImageAsBitmap(pluginId, centerX(bitmap),
+					centerY(bitmap), bitmap);
 		} catch (final Exception e) {
 			Log.d(PluginConstants.LOG_TAG, "Failed to send bitmap", e);
 		}
@@ -188,9 +203,10 @@ public final class PluginUtils {
 	 * @param resourceType
 	 * @return
 	 */
-	public static int getDynamicResourceId(final Context context, final String resourceName, final String resourceType) {
+	public static int getDynamicResourceId(final Context context,
+			final String resourceName, final String resourceType) {
 		return context.getResources().getIdentifier(resourceName, resourceType,
-		        context.getPackageName());
+				context.getPackageName());
 	}
 	
 	/**
@@ -200,8 +216,10 @@ public final class PluginUtils {
 	 * @param resourceName
 	 * @return
 	 */
-	public static String getDynamicResourceString(final Context context, final String resourceName) {
-		final int resourceId = getDynamicResourceId(context, resourceName, "string");
+	public static String getDynamicResourceString(final Context context,
+			final String resourceName) {
+		final int resourceId = getDynamicResourceId(context, resourceName,
+				"string");
 		return context.getString(resourceId);
 	}
 	
@@ -213,10 +231,12 @@ public final class PluginUtils {
 	 * @param bitmap
 	 * @param path
 	 */
-	public static void sendScaledImage(final LiveViewAdapter liveView, final int pluginId, final Bitmap bitmap) {
+	public static void sendScaledImage(final LiveViewAdapter liveView,
+			final int pluginId, final Bitmap bitmap) {
 		try {
 			if (liveView != null) {
-				liveView.sendImageAsBitmap(pluginId, centerX(bitmap), centerY(bitmap), bitmap);
+				liveView.sendImageAsBitmap(pluginId, centerX(bitmap),
+						centerY(bitmap), bitmap);
 			}
 		} catch (final Exception e) {
 			Log.e(PluginConstants.LOG_TAG, "Failed to send image.", e);
@@ -230,7 +250,8 @@ public final class PluginUtils {
 	 * @return
 	 */
 	private static int centerX(final Bitmap bitmap) {
-		return (PluginConstants.LIVEVIEW_SCREEN_X / 2) - (bitmap.getWidth() / 2);
+		return (PluginConstants.LIVEVIEW_SCREEN_X / 2)
+				- (bitmap.getWidth() / 2);
 	}
 	
 	/**
@@ -240,7 +261,8 @@ public final class PluginUtils {
 	 * @return
 	 */
 	private static int centerY(final Bitmap bitmap) {
-		return (PluginConstants.LIVEVIEW_SCREEN_Y / 2) - (bitmap.getHeight() / 2);
+		return (PluginConstants.LIVEVIEW_SCREEN_Y / 2)
+				- (bitmap.getHeight() / 2);
 	}
 	
 }

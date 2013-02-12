@@ -8,11 +8,11 @@ import org.xml.sax.InputSource;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import com.makingiants.liveview.funny.model.sounds.Sound;
-import com.makingiants.liveview.funny.model.sounds.Category;
-
 import android.content.Context;
 import android.util.Log;
+
+import com.makingiants.liveview.funny.model.sounds.Category;
+import com.makingiants.liveview.funny.model.sounds.Sound;
 
 public class CategoryDAO {
 	
@@ -36,11 +36,13 @@ public class CategoryDAO {
 			
 			final boolean done = false;
 			
-			final XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+			final XmlPullParserFactory factory = XmlPullParserFactory
+					.newInstance();
 			factory.setNamespaceAware(true);
 			final XmlPullParser parser = factory.newPullParser();
 			
-			final InputSource source = new InputSource(context.getAssets().open(SOUNDS_FILE));
+			final InputSource source = new InputSource(context.getAssets()
+					.open(SOUNDS_FILE));
 			parser.setInput(source.getByteStream(), source.getEncoding());
 			
 			int eventType = parser.getEventType();
@@ -54,11 +56,14 @@ public class CategoryDAO {
 						
 						name = parser.getName();
 						if (name.equals("category")) {
-							categoryTemp = new Category(parser.getAttributeValue(0));
-						} else if (name.equals("sound")) {
+							categoryTemp = new Category(
+									parser.getAttributeValue(0));
+						}
+						else if (name.equals("sound")) {
 							
-							categoryTemp.addSound(new Sound(parser.getAttributeValue(0), parser
-							        .getAttributeValue(1)));
+							categoryTemp.addSound(new Sound(parser
+									.getAttributeValue(0), parser
+									.getAttributeValue(1)));
 						}
 						
 						break;

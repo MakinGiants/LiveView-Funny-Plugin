@@ -35,8 +35,8 @@ public class PluginPreferences extends PreferenceActivity {
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(getResources()
-		        .getIdentifier("preferences", "xml", getPackageName()));
+		addPreferencesFromResource(getResources().getIdentifier("preferences",
+				"xml", getPackageName()));
 	}
 	
 }

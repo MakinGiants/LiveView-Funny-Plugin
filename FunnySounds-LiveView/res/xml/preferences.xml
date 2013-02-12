@@ -2,7 +2,7 @@
     android:title="Funny Sounds plugin" >
 
     <CheckBoxPreference
-        android:defaultValue="false"
+        android:defaultValue="true"
         android:key="pluginEnabled"
         android:order="0"
         android:title="Enabled" />

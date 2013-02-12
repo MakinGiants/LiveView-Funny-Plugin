@@ -5,7 +5,7 @@
     <!-- The following strings needs to be defined in order for the Plugin to function. -->
     <string name="pluginname">Funny Sounds</string>
     <string name="intent_preferences">com.makingiants.liveview.funny.liveview.plugins.PREFERENCES</string>
-    <string name="intent_service">com.makingiants.liveview.funny.liveview.plugins.sandboxpluginservice</string>
+    <string name="intent_service">com.makingiants.answerit.liveview.plugins.funnysoundsservice</string>
     <string name="application_description">Extends:com.sonyericsson.extras.liveview</string>
 
 </resources>

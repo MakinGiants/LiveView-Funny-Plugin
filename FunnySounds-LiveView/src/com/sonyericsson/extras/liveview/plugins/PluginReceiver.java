@@ -35,35 +35,43 @@ public class PluginReceiver extends BroadcastReceiver {
 	
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
-		final String command = intent.getExtras().getString(PluginConstants.BROADCAST_COMMAND);
+		final String command = intent.getExtras().getString(
+				PluginConstants.BROADCAST_COMMAND);
 		Log.d(PluginConstants.LOG_TAG, "Received command: " + command);
 		
 		if (command == null) {
 			return;
 		}
 		
-		if (command.contentEquals(PluginConstants.BROADCAST_COMMAND_PREFERENCES)) {
+		if (command
+				.contentEquals(PluginConstants.BROADCAST_COMMAND_PREFERENCES)) {
 			final String pluginName = intent.getExtras().getString(
-			        PluginConstants.BROADCAST_COMMAND_PLUGIN_NAME);
-			final String myPluginName = PluginUtils.getDynamicResourceString(context,
-			        PluginConstants.RESOURCE_STRING_PLUGIN_NAME);
+					PluginConstants.BROADCAST_COMMAND_PLUGIN_NAME);
+			final String myPluginName = PluginUtils.getDynamicResourceString(
+					context, PluginConstants.RESOURCE_STRING_PLUGIN_NAME);
 			
 			if (pluginName != null && pluginName.contentEquals(myPluginName)) {
-				final String intentString = PluginUtils.getDynamicResourceString(context,
-				        PluginConstants.RESOURCE_STRING_INTENT_PREFS);
-				Log.d(PluginConstants.LOG_TAG, "Starting preferences! Intent: " + intentString);
+				final String intentString = PluginUtils
+						.getDynamicResourceString(context,
+								PluginConstants.RESOURCE_STRING_INTENT_PREFS);
+				Log.d(PluginConstants.LOG_TAG, "Starting preferences! Intent: "
+						+ intentString);
 				
 				final Intent prefsIntent = new Intent(intentString);
 				prefsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				context.startActivity(prefsIntent);
 			}
-		} else if (command.contentEquals(PluginConstants.BROADCAST_COMMAND_START)) {
+		}
+		else if (command.contentEquals(PluginConstants.BROADCAST_COMMAND_START)) {
 			if (AbstractPluginService.isAlreadyRunning()) {
 				Log.d(PluginConstants.LOG_TAG, "Service is already running.");
-			} else {
-				final String serviceIntent = PluginUtils.getDynamicResourceString(context,
-				        PluginConstants.RESOURCE_STRING_INTENT_SERVICE);
-				Log.d(PluginConstants.LOG_TAG, "Starting service! Intent: " + serviceIntent);
+			}
+			else {
+				final String serviceIntent = PluginUtils
+						.getDynamicResourceString(context,
+								PluginConstants.RESOURCE_STRING_INTENT_SERVICE);
+				Log.d(PluginConstants.LOG_TAG, "Starting service! Intent: "
+						+ serviceIntent);
 				
 				context.startService(new Intent(serviceIntent));
 			}

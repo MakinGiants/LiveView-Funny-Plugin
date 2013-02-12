@@ -22,7 +22,7 @@ public class SoundPlayer implements OnPreparedListener, OnCompletionListener {
 	private Context context;
 	
 	// ****************************************************************
-	// Constructor 
+	// Constructor
 	// ****************************************************************
 	
 	public SoundPlayer(final Context context) {
@@ -47,13 +47,15 @@ public class SoundPlayer implements OnPreparedListener, OnCompletionListener {
 	 *            file to play
 	 * @throws IOException
 	 */
-	public void playSynchronized(final String path) throws IOException, InterruptedException {
+	public void playSynchronized(final String path) throws IOException,
+			InterruptedException {
 		
 		final AssetFileDescriptor afd = context.getAssets().openFd(path);
 		
 		synchronized (mediaPlayer) {
 			
-			mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+			mediaPlayer.setDataSource(afd.getFileDescriptor(),
+					afd.getStartOffset(), afd.getLength());
 			
 			mediaPlayer.prepare();
 			mediaPlayer.start();
@@ -79,14 +81,17 @@ public class SoundPlayer implements OnPreparedListener, OnCompletionListener {
 	 *            file to play
 	 * @throws IOException
 	 */
-	public void play(final String path) throws IOException, InterruptedException {
+	public void play(final String path) throws IOException,
+			InterruptedException {
 		
 		if (mediaPlayer.isPlaying()) {
 			mediaPlayer.reset();
-		} else {
+		}
+		else {
 			final AssetFileDescriptor afd = context.getAssets().openFd(path);
 			
-			mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+			mediaPlayer.setDataSource(afd.getFileDescriptor(),
+					afd.getStartOffset(), afd.getLength());
 			
 			mediaPlayer.prepareAsync();
 			// mediaPlayer.start();
@@ -99,10 +104,12 @@ public class SoundPlayer implements OnPreparedListener, OnCompletionListener {
 	// OnPreparedListener, OnCompletionListener implements
 	// ****************************************************************
 	
+	@Override
 	public void onPrepared(final MediaPlayer player) {
 		mediaPlayer.start();
 	}
 	
+	@Override
 	public void onCompletion(final MediaPlayer arg0) {
 		mediaPlayer.reset();
 	}

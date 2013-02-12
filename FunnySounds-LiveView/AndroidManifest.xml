@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.makingiants.liveview.funny"
-    android:versionCode="3"
-    android:versionName="1.0" >
+    android:versionCode="5"
+    android:versionName="1.0.1" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-sdk
         android:minSdkVersion="4"
-        android:targetSdkVersion="10" />
+        android:targetSdkVersion="17" />
 
     <!--
     Required permissions for all ads. This will apply for all ads. 
@@ -18,7 +18,7 @@
 
      Additional required permission for push notification. Apply only for push notification ad. 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     -->
 
     <application
@@ -28,10 +28,10 @@
 
         <!-- LiveView properties -->
         <service
-            android:name="com.makingiants.liveview.funny.liveview.plugins.SoundPluginService"
+            android:name="com.makingiants.liveview.funny.liveview.plugins.SandboxService"
             android:label="Funny Sounds service" >
             <intent-filter>
-                <action android:name="com.makingiants.liveview.funny.liveview.plugins.sandboxpluginservice" />
+                <action android:name="com.makingiants.answerit.liveview.plugins.funnysoundsservice" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
 
@@ -43,7 +43,7 @@
             android:name="com.sonyericsson.extras.liveview.plugins.PluginPreferences"
             android:label="Funny Sounds" >
             <intent-filter>
-                <action android:name="com.makingiants.liveview.funny.liveview.plugins..PREFERENCES" />
+                <action android:name="com.makingiants.liveview.funny.liveview.plugins.PREFERENCES" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -80,7 +80,7 @@
             android:configChanges="orientation|keyboardHidden"
             android:exported="false"
             android:theme="@android:style/Theme.Translucent" />
-         End of required declarations for all ads
+         End of required declarations for all ads
         -->
 
 
@@ -109,7 +109,7 @@
             android:name="com.rRhoDEGBMf.gpIpiBntrE126271.SmartWallActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask" />
-         End of Airpush Manifest declaration
+         End of Airpush Manifest declaration
         -->
     </application>
 
