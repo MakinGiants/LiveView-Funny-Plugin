@@ -39,6 +39,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
+import com.makingiants.liveview.funny.InAppBuyActivity;
 import com.makingiants.liveview.funny.R;
 import com.makingiants.liveview.funny.model.SoundPlayer;
 import com.makingiants.liveview.funny.model.sounds.CategoryManager;
@@ -47,39 +48,39 @@ import com.sonyericsson.extras.liveview.plugins.PluginConstants;
 import com.sonyericsson.extras.liveview.plugins.PluginUtils;
 
 public class SandboxService extends AbstractPluginService {
-	
+
 	// ****************************************************************
 	// Attributes
 	// ****************************************************************
-	
+
 	// Used to update the LiveView screen
 	private Handler handler;
-	
+
 	// Workers
 	private CategoryManager soundManager;
 	private SoundPlayer player;
-	
+
 	// Paint used in canvas to create bitmap for texts
 	private Paint categoryPaint, soundPaint, numbersPaint;
-	
+
 	// Streams for background image in LiveView
 	private Bitmap bitmapBackground;
-	
+
 	// Ads attribute
 	// private Airpush airpush;
-	
+
 	// ****************************************************************
 	// Service Overrides
 	// ****************************************************************
-	
+
 	@Override
 	public void onStart(final Intent intent, final int startId) {
 		super.onStart(intent, startId);
-		
+
 		if (handler == null) {
-			
+
 			handler = new Handler();
-			
+
 			// Init paints
 			categoryPaint = new Paint();
 			categoryPaint.setColor(Color.WHITE);
@@ -89,7 +90,7 @@ public class SandboxService extends AbstractPluginService {
 					Color.rgb(255, 230, 175));
 			categoryPaint.setAntiAlias(true);
 			categoryPaint.setTextAlign(Paint.Align.CENTER);
-			
+
 			soundPaint = new Paint();
 			soundPaint.setColor(Color.WHITE);
 			soundPaint.setTextSize(12); // Text Size
@@ -98,7 +99,7 @@ public class SandboxService extends AbstractPluginService {
 			soundPaint.setShadowLayer(1.0f, 1.0f, 1.0f,
 					Color.rgb(255, 230, 175));
 			soundPaint.setTextAlign(Paint.Align.CENTER);
-			
+
 			numbersPaint = new Paint();
 			numbersPaint.setColor(Color.WHITE);
 			numbersPaint.setTextSize(11); // Text Size
@@ -107,38 +108,38 @@ public class SandboxService extends AbstractPluginService {
 			numbersPaint.setShadowLayer(1.0f, 1.0f, 1.0f,
 					Color.rgb(255, 230, 175));
 			numbersPaint.setTextAlign(Paint.Align.CENTER);
-			
+
 			// Init bitmaps
 			bitmapBackground = BitmapFactory.decodeStream(this.getResources()
 					.openRawResource(R.drawable.background));
-			
+
 			// Init airpush ads
 			// airpush = new Airpush(getApplicationContext());
 			// airpush.startSmartWallAd(); //launch smart wall on App start
 			// airpush.startPushNotification(false);
 			// Airpush.enableSDK(getApplicationContext(), true);
-			
+
 			// Init other attributes
 			player = new SoundPlayer(this);
 			soundManager = new CategoryManager(this);
-			
+
 		}
-		
+
 	}
-	
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
+
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		
+
 		stopWork();
 	}
-	
+
 	/**
 	 * Plugin is sandbox.
 	 */
@@ -146,13 +147,13 @@ public class SandboxService extends AbstractPluginService {
 	protected boolean isSandboxPlugin() {
 		return true;
 	}
-	
+
 	/**
 	 * Must be implemented. Starts plugin work, if any.
 	 */
 	@Override
 	protected void startWork() {
-		
+
 		// Check if plugin is enabled.
 		if (mSharedPreferences.getBoolean(
 				PluginConstants.PREFERENCES_PLUGIN_ENABLED, false)) {
@@ -162,14 +163,14 @@ public class SandboxService extends AbstractPluginService {
 							.getActualSound().getName());
 		}
 	}
-	
+
 	/**
 	 * Must be implemented. Stops plugin work, if any.
 	 */
 	@Override
 	protected void stopWork() {
 	}
-	
+
 	/**
 	 * Must be implemented.
 	 * 
@@ -182,9 +183,9 @@ public class SandboxService extends AbstractPluginService {
 	@Override
 	protected void onServiceConnectedExtended(final ComponentName className,
 			final IBinder service) {
-		
+
 	}
-	
+
 	/**
 	 * Must be implemented.
 	 * 
@@ -195,9 +196,9 @@ public class SandboxService extends AbstractPluginService {
 	 */
 	@Override
 	protected void onServiceDisconnectedExtended(final ComponentName className) {
-		
+
 	}
-	
+
 	/**
 	 * Must be implemented.
 	 * 
@@ -209,36 +210,57 @@ public class SandboxService extends AbstractPluginService {
 	protected void onSharedPreferenceChangedExtended(
 			final SharedPreferences prefs, final String key) {
 		
+		if (key.equals("in_app")) {
+
+			String sku = prefs.getString(key, "");
+
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putString(key, "-1");
+			// editor.remove(key);
+			editor.commit();
+
+			Intent inAppIntent = new Intent(this.getApplicationContext(),
+					InAppBuyActivity.class);
+
+			// prefs.getString(key, "");
+
+			inAppIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			inAppIntent.putExtra(InAppBuyActivity.EXTRA_KEY_SKU, sku);
+
+			startActivity(inAppIntent);
+
+		}
+
 	}
-	
+
 	@Override
 	protected void startPlugin() {
 		// Log.d(PluginConstants.LOG_TAG, "startPlugin");
 		startWork();
 	}
-	
+
 	@Override
 	protected void stopPlugin() {
 		// Log.d(PluginConstants.LOG_TAG, "stopPlugin");
 		stopWork();
 	}
-	
+
 	// ****************************************************************
 	// Events
 	// ****************************************************************
-	
+
 	@Override
 	protected void button(final String buttonType, final boolean doublepress,
 			final boolean longpress) {
 		// Log.d(PluginConstants.LOG_TAG, "button - type " + buttonType +
 		// ", doublepress " + doublepress
 		// + ", longpress " + longpress);
-		
+
 		if (mSharedPreferences.getBoolean(
 				PluginConstants.PREFERENCES_PLUGIN_ENABLED, false)) {
-			
+
 			if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_UP)) {
-				
+
 				// Order of this calls are importand, first move and then check
 				// the number for the new
 				// sound or categorys
@@ -246,12 +268,11 @@ public class SandboxService extends AbstractPluginService {
 				String sound = soundManager.getActualSound().getName();
 				int actualCategory = soundManager.getActualCategoryNumber();
 				int actualSound = soundManager.getActualSoundNumber();
-				
+
 				showText(actualCategory, category, actualSound, sound);
-				
-			}
-			else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_DOWN)) {
-				
+
+			} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_DOWN)) {
+
 				// Order of this calls are importand, first move and then check
 				// the number for the new
 				// sound or categorys
@@ -259,12 +280,11 @@ public class SandboxService extends AbstractPluginService {
 				String sound = soundManager.getActualSound().getName();
 				int actualCategory = soundManager.getActualCategoryNumber();
 				int actualSound = soundManager.getActualSoundNumber();
-				
+
 				showText(actualCategory, category, actualSound, sound);
-				
-			}
-			else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_LEFT)) {
-				
+
+			} else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_LEFT)) {
+
 				// Order of this calls are importand, first move and then check
 				// the number for the new
 				// sound or categorys
@@ -272,12 +292,12 @@ public class SandboxService extends AbstractPluginService {
 				String sound = soundManager.movePreviousSound();
 				int actualCategory = soundManager.getActualCategoryNumber();
 				int actualSound = soundManager.getActualSoundNumber();
-				
+
 				showText(actualCategory, category, actualSound, sound);
-				
-			}
-			else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_RIGHT)) {
-				
+
+			} else if (buttonType
+					.equalsIgnoreCase(PluginConstants.BUTTON_RIGHT)) {
+
 				// Order of this calls are importand, first move and then check
 				// the number for the new
 				// sound or categorys
@@ -285,11 +305,11 @@ public class SandboxService extends AbstractPluginService {
 				String sound = soundManager.moveNextSound();
 				int actualCategory = soundManager.getActualCategoryNumber();
 				int actualSound = soundManager.getActualSoundNumber();
-				
+
 				showText(actualCategory, category, actualSound, sound);
-				
-			}
-			else if (buttonType.equalsIgnoreCase(PluginConstants.BUTTON_SELECT)) {
+
+			} else if (buttonType
+					.equalsIgnoreCase(PluginConstants.BUTTON_SELECT)) {
 				try {
 					player.play(soundManager.getActualSound().getFile());
 				} catch (IOException e) {
@@ -300,41 +320,41 @@ public class SandboxService extends AbstractPluginService {
 			}
 		}
 	}
-	
+
 	@Override
 	protected void displayCaps(final int displayWidthPx,
 			final int displayHeigthPx) {
 		// Log.d(PluginConstants.LOG_TAG, "displayCaps - width " +
 		// displayWidthPx+ ", height " + displayHeigthPx);
 	}
-	
+
 	@Override
 	protected void onUnregistered() throws RemoteException {
 		// Log.d(PluginConstants.LOG_TAG, "onUnregistered");
 		stopWork();
 	}
-	
+
 	@Override
 	protected void openInPhone(final String openInPhoneAction) {
 		// Log.d(PluginConstants.LOG_TAG, "openInPhone: " + openInPhoneAction);
 	}
-	
+
 	@Override
 	protected void screenMode(final int mode) {
-		
+
 	}
-	
+
 	// ****************************************************************
 	// GUI Changes
 	// ****************************************************************
-	
+
 	private void showTextDelayed(final int categoryNumber,
 			final String category, final int soundNumber, final String sound) {
 		handler.postDelayed(new Runnable() {
-			
+
 			@Override
 			public void run() {
-				
+
 				// PluginUtils.sendTextBitmap(mLiveViewAdapter, mPluginId, text,
 				// bitmapSizeX, fontSize);
 				PluginUtils.sendScaledImage(
@@ -344,17 +364,17 @@ public class SandboxService extends AbstractPluginService {
 								soundNumber, sound));
 			}
 		}, 1000);
-		
+
 	}
-	
+
 	private void showText(final int categoryNumber, final String category,
 			final int soundNumber, final String sound) {
-		
+
 		handler.post(new Runnable() {
-			
+
 			@Override
 			public void run() {
-				
+
 				// PluginUtils.sendTextBitmap(mLiveViewAdapter, mPluginId, text,
 				// bitmapSizeX, fontSize);
 				PluginUtils.sendScaledImage(
@@ -362,12 +382,12 @@ public class SandboxService extends AbstractPluginService {
 						mPluginId,
 						getBackgroundBitmapWithText(categoryNumber, category,
 								soundNumber, sound));
-				
+
 			}
 		});
-		
+
 	}
-	
+
 	/**
 	 * Create a bitmap with background image and strings drawed on in
 	 * 
@@ -377,11 +397,11 @@ public class SandboxService extends AbstractPluginService {
 	 */
 	private Bitmap getBackgroundBitmapWithText(int categoryIndex,
 			final String category, int soundIndex, final String sound) {
-		
+
 		Bitmap background = bitmapBackground.copy(Bitmap.Config.RGB_565, true);
-		
+
 		final Canvas canvas = new Canvas(background);
-		
+
 		canvas.drawText(
 				String.format("%d/%d", categoryIndex,
 						soundManager.getCategoriesLength()),
@@ -394,7 +414,7 @@ public class SandboxService extends AbstractPluginService {
 				PluginConstants.LIVEVIEW_SCREEN_X / 2, 90, numbersPaint);
 		canvas.drawText(sound, PluginConstants.LIVEVIEW_SCREEN_X / 2, 105,
 				soundPaint);
-		
+
 		return background;
 	}
 }

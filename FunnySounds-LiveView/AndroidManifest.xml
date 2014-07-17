@@ -1,25 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.makingiants.liveview.funny"
-    android:versionCode="5"
-    android:versionName="1.0.1" >
+    android:versionCode="10"
+    android:versionName="1.0.2.1" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <uses-sdk
         android:minSdkVersion="4"
         android:targetSdkVersion="17" />
-
-    <!--
-    Required permissions for all ads. This will apply for all ads. 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
-     Additional required permission for push notification. Apply only for push notification ad. 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    -->
 
     <application
         android:description="@string/application_description"
@@ -62,55 +52,9 @@
 
         <!-- End LiveView properties -->
 
-
-        <!--
-        Adds attributes 
-        <meta-data
-            android:name="com.rRhoDEGBMf.gpIpiBntrE126271.APPID"
-            android:value="88066" />
-        <meta-data
-            android:name="com.rRhoDEGBMf.gpIpiBntrE126271.APIKEY"
-            android:value="gpIpiBntrE126271*1354601969126271490" />
-       
-
-
-         This activity is required for all ads. This activity is also used for Dialog ads.
         <activity
-            android:name="com.rRhoDEGBMf.gpIpiBntrE126271.OptinActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:exported="false"
-            android:theme="@android:style/Theme.Translucent" />
-         End of required declarations for all ads
-        -->
-
-
-        <!--
-        Start declaration for push notification ads. 
-        <service
-            android:name="com.rRhoDEGBMf.gpIpiBntrE126271.PushService"
-            android:exported="false" />
-
-        <receiver
-            android:name="com.rRhoDEGBMf.gpIpiBntrE126271.BootReceiver"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-
-                <category android:name="android.intent.category.HOME" />
-            </intent-filter>
-        </receiver>
-         End declaration for push notification ads.
-
-
-
-        
-        Required activity for AppWall and Landing page ads.
-        <activity
-            android:name="com.rRhoDEGBMf.gpIpiBntrE126271.SmartWallActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTask" />
-         End of Airpush Manifest declaration
-        -->
+            android:name="com.makingiants.liveview.funny.InAppBuyActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar" />
     </application>
 
 </manifest>

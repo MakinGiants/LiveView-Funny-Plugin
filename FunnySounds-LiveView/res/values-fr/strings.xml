@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- In app Billing -->
+    <string name="conf_in_app_title">Ajude-nos!</string>
+    <string name="conf_in_app_summary">Dê comida e bebidas para desenvolver melhores apps!</string>
+    <string name="in_app_message_thanks">Obrigado por dar! agora podemos fazer mais apps!</string>
+
+</resources>

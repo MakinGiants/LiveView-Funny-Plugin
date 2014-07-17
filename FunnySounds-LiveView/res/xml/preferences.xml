@@ -1,11 +1,22 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="Funny Sounds plugin" >
 
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="pluginEnabled"
-        android:order="0"
-        android:title="Enabled" />
-    <!-- Add your additional preferences here. -->
+    <PreferenceCategory android:title="LiveView Setup" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pluginEnabled"
+            android:order="0"
+            android:title="Enabled" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Contribute!" >
+        <ListPreference
+            defaultValue="-1"
+            android:dependency="pluginEnabled"
+            android:entries="@array/in_app_messages"
+            android:entryValues="@array/in_app_sku"
+            android:key="in_app"
+            android:summary="@string/conf_in_app_summary"
+            android:title="@string/conf_in_app_title" />
+    </PreferenceCategory>
 
 </PreferenceScreen>
